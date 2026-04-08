@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUY HOANG MAKEUP | 2024 Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #333333; 
+            --accent: #A67C52; 
+            --bg-light: #F8F1ED; 
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(166, 124, 82, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg-light); color: var(--primary); line-height: 1.6; }
+
+        /* Thanh danh mục */
+        nav {
+            position: fixed; top: 0; width: 100%; background: rgba(248, 241, 237, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 1px solid rgba(166, 124, 82, 0.2); z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center; padding: 12px 8%;
+        }
+        
+        /* Logo có hình tròn */
+        .logo-container { display: flex; align-items: center; gap: 10px; }
+        .logo-circle { 
+            width: 45px; height: 45px; border-radius: 50%; 
+            background: #eee; border: 1px solid var(--accent); 
+            overflow: hidden; flex-shrink: 0;
+        }
+        .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .logo-text { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.6rem; letter-spacing: 2px; color: var(--accent); }
+
+        .nav-links a {
+            margin-left: 30px; text-decoration: none; color: var(--primary);
+            font-weight: 500; font-size: 13px; text-transform: uppercase; transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* Banner */
+        header {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('banner.jpg') center/cover;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: white; text-align: center; padding: 0 20px;
+        }
+        header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 7vw, 4.5rem); margin-bottom: 10px; }
+        header p { font-size: 1.2rem; letter-spacing: 3px; margin-bottom: 40px; }
+        
+        .btn-main {
+            padding: 16px 40px; background: var(--accent); color: white;
+            text-decoration: none; font-weight: 600; border-radius: 0px;
+            transition: 0.4s; cursor: pointer; border: none;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .btn-main:hover { background: var(--primary); }
+
+        section { padding: 120px 8% 80px; display: none; animation: fadeIn 0.5s ease-in-out; }
+        section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        h2 { font-family: 'Playfair Display', serif; text-align: center; font-size: 2.2rem; margin-bottom: 50px; text-transform: uppercase; color: var(--accent); }
+
+        /* Dịch vụ */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card { background: var(--white); overflow: hidden; box-shadow: var(--shadow); transition: 0.4s; cursor: pointer; }
+        .service-img { width: 100%; height: 400px; object-fit: cover; transition: 0.5s; }
+        .service-card:hover .service-img { transform: scale(1.05); }
+        .service-info { padding: 20px; text-align: center; }
+
+        /* ẢNH MẪU ĐỊNH DẠNG 3:4 */
+        .preview-images { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        .img-container-34 {
+            width: 100%;
+            aspect-ratio: 3 / 4; /* Định dạng khung ảnh 3:4 */
+            background: #eee;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+        .img-container-34 img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: 0.3s;
+        }
+
+        .container-box { max-width: 800px; margin: auto; background: white; padding: 40px; box-shadow: var(--shadow); border-top: 4px solid var(--accent); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; text-transform: uppercase; color: #666; }
+        input, select, textarea { 
+            width: 100%; padding: 12px; border: 1px solid #eee; background: #fdfdfd;
+            border-radius: 0; font-family: inherit;
+        }
+
+        .qr-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+        .qr-card { border: 1px solid #eee; padding: 15px; text-align: center; background: #fafafa; }
+        .qr-placeholder { width: 100%; aspect-ratio: 1; background: #eee; margin: 10px 0; object-fit: contain; }
+
+        #hairModal {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 2000;
+        }
+        .modal-body { background: white; padding: 40px; max-width: 400px; width: 90%; text-align: center; }
+        .option-btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: 1px solid var(--accent); cursor: pointer; background: white; font-weight: 600; transition: 0.3s; }
+        .option-btn:hover { background: var(--accent); color: white; }
+
+        footer { text-align: center; padding: 60px 0; font-size: 11px; color: #888; letter-spacing: 2px; text-transform: uppercase; }
+
+        @media (max-width: 768px) { 
+            .qr-section { grid-template-columns: 1fr; } 
+            .preview-images { grid-template-columns: repeat(3, 1fr); gap: 8px; } 
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-container">
+            <div class="logo-circle">
+                <img src="Logo.jpg" alt="Logo">
+            </div>
+            <div class="logo-text">HUY HOANG</div>
+        </div>
+        <div class="nav-links">
+            <a href="#" onclick="showSection('home')">Trang chủ</a>
+            <a href="#" onclick="showSection('services')">Dịch vụ</a>
+            <a href="#" onclick="showSection('contact')">Liên hệ & Đánh giá</a>
+        </div>
+    </nav>
+
+    <header id="home-header">
+        <h1>HUY HOANG MAKEUP</h1>
+        <p>CHẠM ĐẾN VẺ ĐẸP HOÀN MỸ</p>
+        <button class="btn-main" onclick="showSection('services')">Xem dịch vụ</button>
+    </header>
+
+    <section id="services">
+        <h2>Dịch vụ</h2>
+        <div class="services-grid">
+            <div class="service-card" onclick="openHairModal('Kỷ yếu', 300000)">
+                <img src="kỷ yếu.jpg" class="service-img">
+                <div class="service-info"><h3>Kỷ yếu</h3><p>300.000 VND</p></div>
+            </div>
+            <div class="service-card" onclick="openHairModal('Tiệc tối', 450000)">
+                <img src="tiệc tối.jpg" class="service-img">
+                <div class="service-info"><h3>Tiệc tối</h3><p>450.000 VND</p></div>
+            </div>
+            <div class="service-card" onclick="openHairModal('Concept', 900000, true)">
+                <img src="Concept.jpg" class="service-img">
+                <div class="service-info"><h3>Concept</h3><p>900.000 VND (Kèm tóc)</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking">
+        <h2>Thông tin đặt lịch</h2>
+        <div class="container-box">
+            <div id="servicePreviews" class="preview-images">
+                <div class="img-container-34"><img src="" class="img-preview"></div>
+                <div class="img-container-34"><img src="" class="img-preview"></div>
+                <div class="img-container-34"><img src="" class="img-preview"></div>
+            </div>
+
+            <form id="bookingForm" onsubmit="handleBooking(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group"><label>Dịch vụ</label><input type="text" id="selectedService" readonly></div>
+                    <div class="form-group"><label>Tổng chi phí</label><input type="text" id="totalPrice" readonly></div>
+                </div>
+                <div class="form-group"><label>Họ và Tên</label><input type="text" id="customerName" required></div>
+                <div class="form-group"><label>Số điện thoại</label><input type="tel" id="customerPhone" required></div>
+                <div class="form-group"><label>Thời gian</label><input type="datetime-local" id="bookingTime" required></div>
+                <div class="form-group">
+                    <label>Địa điểm</label>
+                    <select id="location" onchange="toggleAddress()">
+                        <option value="studio">Tại studio (136 Trần Văn Quang)</option>
+                        <option value="home">Tại nhà khách</option>
+                    </select>
+                </div>
+                <div class="form-group" id="addressField" style="display:none;">
+                    <label>Địa chỉ cụ thể</label>
+                    <textarea id="customerAddress" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Thanh toán</label>
+                    <select id="paymentMethod">
+                        <option value="100%">Chuyển khoản Full</option>
+                        <option value="50%">Chuyển khoản 50%</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="button" class="btn-main" style="background: #999;" onclick="showSection('services')">Quay lại</button>
+                    <button type="submit" class="btn-main" style="flex: 1;">Tiếp tục</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="payment">
+        <h2>Xác nhận dịch vụ</h2>
+        <div class="container-box" style="text-align: center;">
+            <p id="paymentNote" style="font-weight: 600; color: var(--accent); margin-bottom: 20px;"></p>
+            
+            <div class="qr-section">
+                <div class="qr-card">
+                    <p style="font-size: 12px; font-weight: bold;">ACB - Á CHÂU</p>
+                    <img src="ngân hàng.jpg" class="qr-placeholder" alt="QR ACB">
+                    <p style="font-size: 13px;">STK: 35933157</p>
+                    <p style="font-size: 11px;">PHẠM LÊ HUY HOÀNG</p>
+                </div>
+                <div class="qr-card">
+                    <p style="font-size: 12px; font-weight: bold;">MOMO</p>
+                    <img src="momo.jpg" class="qr-placeholder" alt="QR Momo">
+                    <p style="font-size: 13px;">0934656178</p>
+                    <p style="font-size: 11px;">PHẠM LÊ HUY HOÀNG</p>
+                </div>
+            </div>
+
+            <div style="background: #fdfdfd; padding: 20px; border: 1px dashed #ccc; margin-bottom: 20px;">
+                <p style="font-size: 12px;">Nội dung chuyển khoản:</p>
+                <strong id="transferContent" style="font-size: 1.2rem; letter-spacing: 1px;"></strong>
+            </div>
+
+            <div class="form-group" style="text-align: left;"><label>Đính kèm ảnh giao dịch</label><input type="file" id="proofImage" required></div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button type="button" class="btn-main" style="background: #999;" onclick="showSection('booking')">Quay lại</button>
+                <button onclick="finishBooking()" class="btn-main" style="flex: 1; background: #28a745;">ĐẶT LỊCH</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Liên hệ & Đánh giá</h2>
+        <div class="services-grid" style="grid-template-columns: 1fr 1.2fr;">
+            <div style="background: white; padding: 30px; box-shadow: var(--shadow);">
+                <h3 style="margin-bottom: 20px; font-family: 'Playfair Display'; color: var(--accent);">Thông tin</h3>
+                <p style="font-size: 14px; margin-bottom: 10px;">Số điện thoại/Zalo: 0934656178</p>
+                <p style="font-size: 14px; margin-bottom: 10px;">Facebook: Phạm Lê Huy Hoàng</p>
+                <p style="font-size: 14px; margin-bottom: 10px;">Instagram: hoagn.iu_</p>
+                <p style="font-size: 14px;">Địa chỉ: 136 Trần Văn Quang, Tân Bình</p>
+            </div>
+            
+            <form style="background: white; padding: 30px; box-shadow: var(--shadow);" onsubmit="event.preventDefault(); alert('Cảm ơn bạn đã đánh giá!'); this.reset();">
+                <h3 style="margin-bottom: 20px; font-family: 'Playfair Display'; color: var(--accent);">Đánh giá dịch vụ</h3>
+                <div class="form-group"><label>Họ và Tên</label><input type="text" required></div>
+                <div class="form-group">
+                    <label>Mức độ hài lòng</label>
+                    <div style="display: flex; gap: 20px; margin-top: 10px;">
+                        <label style="font-weight: 400; font-size: 14px;"><input type="radio" name="s" onclick="document.getElementById('rsBox').style.display='none'"> Hài lòng</label>
+                        <label style="font-weight: 400; font-size: 14px;"><input type="radio" name="s" onclick="document.getElementById('rsBox').style.display='block'"> Chưa hài lòng</label>
+                    </div>
+                </div>
+                <div id="rsBox" class="form-group" style="display:none;"><label>Lý do</label><textarea rows="2"></textarea></div>
+                <div class="form-group"><label>Feedback ảnh xinh tại đây</label><input type="file"></div>
+                <button type="submit" class="btn-main" style="width: 100%;">Gửi đánh giá</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="hairModal">
+        <div class="modal-body">
+            <h3>Thông báo</h3>
+            <p style="font-size: 14px; margin: 15px 0; color: #d9534f;">Gói Makeup này chưa bao gồm làm tóc.</p>
+            <button class="option-btn" onclick="selectHair(100000, 'Tóc đơn giản')">Kèm tóc đơn giản: 100.000 VND</button>
+            <button class="option-btn" onclick="selectHair(200000, 'Tóc cao cấp')">Kèm tóc cao cấp: 200.000 VND</button>
+            <button class="option-btn" style="border-color: #eee; color: #999;" onclick="selectHair(0, 'Chỉ Makeup')">Không làm tóc</button>
+        </div>
+    </div>
+
+    <footer>&copy; 2024 HUY HOANG MAKEUP. ALL RIGHTS RESERVED.</footer>
+
+    <script>
+        const bookedList = ["2024-03-15T14:00"];
+        let currentS = { name: '', price: 0 };
+
+        const serviceImages = {
+            'Kỷ yếu': [
+                'kỷ yếu (1).jpg',
+                'kỷ yếu (2).jpg',
+                'kỷ yếu (3).jpg'
+            ],
+            'Tiệc tối': [
+                'tiệc tối (1).jpg',
+                'tiệc tối (2).jpg',
+                'tiệc tối (3).jpg'
+            ],
+            'Concept': [
+                'Concept (1).jpg',
+                'Concept (2).jpg',
+                'Concept (3).jpg'
+            ]
+        };
+
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById('home-header').style.display = (id === 'home') ? 'flex' : 'none';
+            if(id !== 'home') document.getElementById(id).classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function openHairModal(name, price, isConcept = false) {
+            currentS = { name, price };
+            if (isConcept) {
+                goToBooking(name + " (Kèm tóc)", price, 'Concept');
+            } else {
+                document.getElementById('hairModal').style.display = 'flex';
+            }
+        }
+
+        function selectHair(hPrice, hName) {
+            const finalN = `${currentS.name} + ${hName}`;
+            const finalP = currentS.price + hPrice;
+            document.getElementById('hairModal').style.display = 'none';
+            goToBooking(finalN, finalP, currentS.name);
+        }
+
+        function goToBooking(name, total, imgKey) {
+            document.getElementById('selectedService').value = name;
+            document.getElementById('totalPrice').value = total.toLocaleString('vi-VN') + " VND";
+            
+            const imgs = document.querySelectorAll('.img-preview');
+            serviceImages[imgKey].forEach((src, idx) => {
+                imgs[idx].src = src;
+            });
+
+            showSection('booking');
+        }
+
+        function toggleAddress() {
+            document.getElementById('addressField').style.display = (document.getElementById('location').value === 'home') ? 'block' : 'none';
+        }
+
+        function handleBooking(e) {
+            e.preventDefault();
+            const time = document.getElementById('bookingTime').value;
+            if (bookedList.includes(time)) { alert("Đã được đặt trước!"); return; }
+
+            const name = document.getElementById('customerName').value;
+            const method = document.getElementById('paymentMethod').value;
+            const content = `${name.toUpperCase().replace(/\s/g,'')}_${time.replace('T','_').replace(':','h')}`;
+
+            document.getElementById('paymentNote').innerText = `Vui lòng chuyển khoản ${method} giá trị dịch vụ.`;
+            document.getElementById('transferContent').innerText = content;
+            showSection('payment');
+        }
+
+        function finishBooking() {
+            if (!document.getElementById('proofImage').files[0]) { alert("Vui lòng đính kèm ảnh!"); return; }
+            alert("ĐẶT LỊCH THÀNH CÔNG");
+            showSection('home');
+        }
+    </script>
+</body>
+</html>
